@@ -42,7 +42,7 @@ const webpackConfig = {
 
 webpackConfig.plugins.push(...[
   new CleanWebpackPlugin([getPath('/dist')]),
-  new ExtractTextPlugin('css/[name].css'),
+  new ExtractTextPlugin('css/[name].css')
   // new CopyWebpackPlugin([{
   //   from: getPath('entry/*/README.md'),
   //   to: getPath('/dist/doc/[1].md'),
