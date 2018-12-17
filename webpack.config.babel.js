@@ -132,6 +132,7 @@ function addEntry (name) {
   webpackConfig.entry[name] = entryPath
 }
 
+addEntry('index')
 addEntry('asynDebounce')
 addEntry('debounce')
 addEntry('Storage')
