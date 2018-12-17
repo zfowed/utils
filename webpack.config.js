@@ -17,11 +17,14 @@ const getPath = function (...paths) {
 
 const webpackConfig = {
   mode,
-  entry: {},
+  entry: {
+    index: getPath('index')
+  },
   output: {
     path: getPath('dist'),
     libraryTarget: 'umd',
     library: '[name]',
+    libraryExport: 'default',
     publicPath: '/',
     chunkFilename: '[name].js',
     filename: '[name].js'
