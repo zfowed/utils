@@ -1,12 +1,12 @@
 
 /* global require, process, __dirname */
-import fs from 'fs'
-import path from 'path'
-import webpack from 'webpack'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
-// import CopyWebpackPlugin from 'copy-webpack-plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import CompressionPlugin from 'compression-webpack-plugin'
+const fs = require('fs')
+const path = require('path')
+const webpack = require('webpack')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const mode = process.env.NODE_ENV
 const debug = mode !== 'production'
@@ -20,6 +20,8 @@ const webpackConfig = {
   entry: {},
   output: {
     path: getPath('dist'),
+    libraryTarget: 'umd',
+    library: '[name]',
     publicPath: '/',
     chunkFilename: '[name].js',
     filename: '[name].js'
@@ -42,13 +44,13 @@ const webpackConfig = {
 
 webpackConfig.plugins.push(...[
   new CleanWebpackPlugin([getPath('/dist')]),
-  new ExtractTextPlugin('css/[name].css')
-  // new CopyWebpackPlugin([{
-  //   from: getPath('entry/*/README.md'),
-  //   to: getPath('/dist/doc/[1].md'),
-  //   toType: 'template',
-  //   test: /([^/]+)\/README\.md$/
-  // }])
+  new ExtractTextPlugin('css/[name].css'),
+  new CopyWebpackPlugin([{
+    from: getPath('entry/*/README.md'),
+    to: getPath('/dist/doc/[1].md'),
+    toType: 'template',
+    test: /([^/]+)\/README\.md$/
+  }])
 ])
 
 if (debug) {
@@ -79,8 +81,7 @@ webpackConfig.module.rules.push(...[
         }
       }
     ],
-    exclude: [/node_modules/, getPath('/src/library/')],
-    include: getPath('/src')
+    include: getPath('/entry')
   },
   {
     test: /\.(css|scss|sass)$/,
@@ -132,9 +133,10 @@ function addEntry (name) {
   webpackConfig.entry[name] = entryPath
 }
 
-addEntry('index')
-addEntry('asynDebounce')
-addEntry('debounce')
-addEntry('Storage')
+const files = fs.readdirSync(getPath('entry'))
 
-export default webpackConfig
+for (const name of files) {
+  addEntry(name)
+}
+
+module.exports = webpackConfig
