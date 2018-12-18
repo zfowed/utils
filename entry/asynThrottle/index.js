@@ -1,4 +1,4 @@
-export default function asynDebounce (func, delay, isEnsure) {
+export default function asynThrottle (func, delay, isEnsure) {
   delay = delay || 0
   isEnsure = !!isEnsure
 

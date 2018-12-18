@@ -3,7 +3,7 @@ import FileSelection from '@zfowed/utils/dist/FileSelection'
 import Queue from '@zfowed/utils/dist/Queue'
 import cookie from '@zfowed/utils/dist/cookie'
 import debounce from '@zfowed/utils/dist/debounce'
-import asynDebounce from '@zfowed/utils/dist/asynDebounce'
+import asynThrottle from '@zfowed/utils/dist/asynThrottle'
 import template from '@zfowed/utils/dist/template'
 import groupBy from '@zfowed/utils/dist/groupBy'
 import uniq from '@zfowed/utils/dist/uniq'
@@ -16,7 +16,7 @@ export default {
   Queue,
   cookie,
   debounce,
-  asynDebounce,
+  asynThrottle,
   template,
   groupBy,
   uniq,

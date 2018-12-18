@@ -12,7 +12,7 @@
 
 ## 函数 Function
 
-- [`asynDebounce` 异步函数去抖](entry/asynDebounce/README.md)
+- [`asynThrottle` 异步函数去抖](entry/asynThrottle/README.md)
 
 ## 实用函数 UTILS
 

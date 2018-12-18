@@ -1,4 +1,4 @@
-# asynDebounce 异步函数去抖
+# asynThrottle 异步函数去抖
 
 创建一个异步的节流函数，在 wait 秒内最多执行 func 一次的函数，并且手动回调完成
 
@@ -10,7 +10,7 @@ npm install @zfowed/utils -S
 
 ## 方法
 
-`asynDebounce(func, delay, [, isEnsure])`
+`asynThrottle(func, delay, [, isEnsure])`
 
 Parameters:
 
@@ -25,7 +25,7 @@ Return:
 ## 基本用法
 
 ```javascript
-import asynDebounce from '@zfowed/utils/dist/asynDebounce'
+import asynThrottle from '@zfowed/utils/dist/asynThrottle'
 ```
 
 ```javascript
@@ -37,6 +37,6 @@ const bar = function (param1, param2, next) {
   }, 200)
 }
 
-const baz = asynDebounce(bar, 200, true)
+const baz = asynThrottle(bar, 200, true)
 baz('param1', 'param2')
 ```
