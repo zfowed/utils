@@ -11,6 +11,7 @@ import uniqBy from '@zfowed/utils/dist/uniqBy'
 import uniqWith from '@zfowed/utils/dist/uniqWith'
 import get from '@zfowed/utils/dist/get'
 import set from '@zfowed/utils/dist/set'
+import cloneDeep from '@zfowed/utils/dist/cloneDeep'
 
 export default {
   Storage,
@@ -25,5 +26,6 @@ export default {
   uniqBy,
   uniqWith,
   get,
-  set
+  set,
+  cloneDeep
 }
