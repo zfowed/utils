@@ -1,67 +1,77 @@
 import debounce from '@zfowed/utils/dist/debounce'
 
+/**
+ * 将路径分解成数组
+ *
+ * @param {string} path
+ * @returns
+ */
+function pathToArray (path) {
+  return Array.isArray(path) ? path : path.replace(/\[/g, '.').replace(/\]/g, '').split('.')
+}
+
+/**
+ * 根据path获取一个对象某一项的值
+ *
+ * @param {object} object
+ * @param {string} path
+ * @param {*} defaultValue
+ * @returns
+ */
+function objectDeepGet (object, path, defaultValue) {
+  path = pathToArray(path)
+  path.unshift(object)
+  return path.reduce((data, key, index) => {
+    if (index !== path.length - 1) {
+      return data[key] || {}
+    }
+    return typeof data[key] !== 'undefined' ? data[key] : defaultValue
+  })
+}
+
+/**
+ * 根据path设置一个对象某一项的值
+ *
+ * @param {object} object
+ * @param {string} path
+ * @param {*} value
+ * @returns
+ */
+function objectDeepSet (object, path, value) {
+  path = pathToArray(path)
+  path.unshift(object)
+  path.reduce((data, key, index) => {
+    if (index !== path.length - 1) {
+      if (!data[key]) { data[key] = {} }
+    } else {
+      data[key] = value
+    }
+    return data[key]
+  })
+}
+
+/**
+ * 深复制
+ *
+ * @param {*} value
+ * @returns
+ */
+function deepCopy (value) {
+  if (typeof value === 'undefined') return undefined
+  return JSON.parse(JSON.stringify(value))
+}
+
 class Storage {
   constructor (key) {
     this._key = key || 'storage'
-    this._storage = this.decode(this.getStorage(this._key), {}) || {}
+    this._storage = undefined
   }
 
-  /**
-   * 将路径分解成数组
-   *
-   * @param {string} path
-   * @returns
-   * @memberof Storage
-   */
-  _pathToArray (path) {
-    return Array.isArray(path) ? path : path.replace(/\[/g, '.').replace(/\]/g, '').split('.')
-  }
-
-  /**
-   * 根据path获取一个对象某一项的值
-   *
-   * @param {object} object
-   * @param {string} path
-   * @param {*} defaultValue
-   * @returns
-   * @memberof Storage
-   */
-  _objectDeepGet (object, path, defaultValue) {
-    path = this._pathToArray(path)
-    path.unshift(object)
-    return path.reduce((data, key, index) => {
-      if (index !== path.length - 1) {
-        return data[key] || {}
-      }
-      return typeof data[key] !== 'undefined' ? data[key] : defaultValue
-    })
-  }
-
-  /**
-   * 根据path设置一个对象某一项的值
-   *
-   * @param {object} object
-   * @param {string} path
-   * @param {*} value
-   * @returns
-   * @memberof Storage
-   */
-  _objectDeepSet (object, path, value) {
-    path = this._pathToArray(path)
-    path.unshift(object)
-    path.reduce((data, key, index) => {
-      if (index !== path.length - 1) {
-        if (!data[key]) { data[key] = {} }
-      } else {
-        data[key] = value
-      }
-      return data[key]
-    })
-  }
-
-  _deepCopy (value) {
-    if (typeof value === 'undefined') return undefined
-    return JSON.parse(JSON.stringify(value))
+  get storage () {
+    if (!this._storage) {
+      this._storage = this.decode(this.getStorage(this._key), {}) || {}
+    }
+    return this._storage
   }
 
   /**
@@ -109,7 +119,7 @@ class Storage {
    * @memberof Storage
    */
   syncLocalStorageEnsure () {
-    return this.setStorage(this._key, this.encode(this._storage))
+    return this.setStorage(this._key, this.encode(this.storage))
   }
 
   /**
@@ -121,8 +131,8 @@ class Storage {
    */
   getItem (path, defaultValue) {
     this.syncLocalStorage()
-    const value = this._objectDeepGet(this._storage, path, defaultValue)
-    return this._deepCopy(value)
+    const value = objectDeepGet(this.storage, path, defaultValue)
+    return deepCopy(value)
   }
 
   /**
@@ -135,7 +145,7 @@ class Storage {
    * @memberof Storage
    */
   setItem (path, value, options) {
-    this._objectDeepSet(this._storage, path, value)
+    objectDeepSet(this.storage, path, value)
     if (options && options.ensure) {
       return this.syncLocalStorageEnsure()
     }

@@ -93,7 +93,63 @@ storage.decode = function (value) {
   try {
     return JSON.parse(value)
   } catch (error) {
-    return {}
+    throw new Error('编码失败')
+  }
+}
+```
+
+使用 `lz-string` 压缩字符串
+
+```javascript
+// 加密数据
+storage.encode = function (value) {
+  try {
+    if (CONFIG.DEBUG) {
+      return JSON.stringify(value)
+    }
+    return lzString.compressToUTF16(JSON.stringify(value))
+  } catch (error) {
+    throw new Error('编码失败')
+  }
+}
+// 解密数据
+storage.decode = function (value) {
+  try {
+    if (CONFIG.DEBUG) {
+      return JSON.parse(value)
+    }
+    return JSON.parse(lzString.decompressFromUTF16(value))
+  } catch (error) {
+    return new Error('编码失败')
+  }
+}
+```
+
+使用 `lz-string` 压缩字符串
+
+```javascript
+import lzString from 'lz-string'
+
+// 加密数据
+storage.encode = function (value) {
+  try {
+    if (CONFIG.DEBUG) {
+      return JSON.stringify(value)
+    }
+    return lzString.compressToUTF16(JSON.stringify(value))
+  } catch (error) {
+    throw new Error('编码失败')
+  }
+}
+// 解密数据
+storage.decode = function (value) {
+  try {
+    if (CONFIG.DEBUG) {
+      return JSON.parse(value)
+    }
+    return JSON.parse(lzString.decompressFromUTF16(value))
+  } catch (error) {
+    return new Error('编码失败')
   }
 }
 ```
