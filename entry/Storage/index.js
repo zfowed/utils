@@ -3,7 +3,7 @@ import debounce from '@zfowed/utils/dist/debounce'
 class Storage {
   constructor (key) {
     this._key = key || 'storage'
-    this._storage = this.decode(this.getStorage(this._key), {})
+    this._storage = this.decode(this.getStorage(this._key), {}) || {}
   }
 
   /**

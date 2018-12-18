@@ -1,5 +1,11 @@
 # 工具类
 
+## 数组 Array
+
+- [`uniq` 数组去重](entry/uniq/README.md)
+- [`uniqBy` 数组去重（对每个元素生成比较值进行比较）](entry/uniqBy/README.md)
+- [`uniqWith` 数组去重（调用每个元素进行比较）](entry/uniqWith/README.md)
+
 ## 集合 Collection
 
 - [`groupBy` 集合分组](entry/groupBy/README.md)

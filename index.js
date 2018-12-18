@@ -6,6 +6,9 @@ import debounce from '@zfowed/utils/dist/debounce'
 import asynDebounce from '@zfowed/utils/dist/asynDebounce'
 import template from '@zfowed/utils/dist/template'
 import groupBy from '@zfowed/utils/dist/groupBy'
+import uniq from '@zfowed/utils/dist/uniq'
+import uniqBy from '@zfowed/utils/dist/uniqBy'
+import uniqWith from '@zfowed/utils/dist/uniqWith'
 
 export default {
   Storage,
@@ -15,5 +18,8 @@ export default {
   debounce,
   asynDebounce,
   template,
-  groupBy
+  groupBy,
+  uniq,
+  uniqBy,
+  uniqWith
 }
