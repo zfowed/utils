@@ -39,7 +39,8 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
     alias: {
-      '@zfowed/utils': getPath('entry')
+      '@zfowed/utils/dist': getPath('/entry'),
+      '@zfowed/utils': getPath('/')
     }
   }
 }

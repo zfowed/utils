@@ -1,4 +1,4 @@
-import debounce from '@zfowed/utils/debounce'
+import debounce from '@zfowed/utils/dist/debounce'
 
 class Storage {
   constructor (key) {
