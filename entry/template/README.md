@@ -68,7 +68,7 @@ compiled({ 'user': 'fred' }); // 'hello fred!'
 - `{{=` ... `}}`: 转义后的数据值
 
 ```javascript
-var compiled = template('hello {{ user }}!', {
+var compiled = template('hello {{= user }}!', {
   escape: /{{=\s*([\s\S]+?)\s*}}/g,
   interpolate: /{{-\s*([\s\S]+?)\s*}}/g,
   evaluate: /{{\s*([\s\S]+?)\s*}}/g
