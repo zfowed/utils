@@ -14,6 +14,10 @@
 
 - [`asynThrottle` 异步函数去抖](entry/asynThrottle/README.md)
 
+## Lang
+
+- [`cloneDeep` 深复制](entry/cloneDeep/README.md)
+
 ## 对象 Object
 
 - [`get` 根据 object对象的 `path` 路径获取值](entry/get/README.md)
