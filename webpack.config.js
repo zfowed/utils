@@ -4,7 +4,6 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 
@@ -47,13 +46,7 @@ const webpackConfig = {
 
 webpackConfig.plugins.push(...[
   new CleanWebpackPlugin([getPath('/dist')]),
-  new ExtractTextPlugin('css/[name].css'),
-  new CopyWebpackPlugin([{
-    from: getPath('entry/*/README.md'),
-    to: getPath('/dist/doc/[1].md'),
-    toType: 'template',
-    test: /([^/]+)\/README\.md$/
-  }])
+  new ExtractTextPlugin('css/[name].css')
 ])
 
 if (debug) {
