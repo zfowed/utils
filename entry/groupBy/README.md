@@ -1,4 +1,4 @@
-# groupBy 集合分组
+# `groupBy` 集合分组
 
 > `groupBy(collection, iteratee)`
 

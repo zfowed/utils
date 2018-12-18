@@ -1,4 +1,4 @@
-# FileReader 文件选择器
+# `FileReader` 文件选择器
 
 ## NPM安装
 

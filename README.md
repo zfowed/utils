@@ -14,6 +14,11 @@
 
 - [`asynThrottle` 异步函数去抖](entry/asynThrottle/README.md)
 
+## 对象 Object
+
+- [`get` 根据 object对象的 `path` 路径获取值](entry/get/README.md)
+- [`set` 设置 object对象中对应 `path` 属性路径上的值](entry/set/README.md)
+
 ## 实用函数 UTILS
 
 - [`Queue` 队列](entry/Queue/README.md)

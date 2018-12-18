@@ -9,6 +9,8 @@ import groupBy from '@zfowed/utils/dist/groupBy'
 import uniq from '@zfowed/utils/dist/uniq'
 import uniqBy from '@zfowed/utils/dist/uniqBy'
 import uniqWith from '@zfowed/utils/dist/uniqWith'
+import get from '@zfowed/utils/dist/get'
+import set from '@zfowed/utils/dist/set'
 
 export default {
   Storage,
@@ -21,5 +23,7 @@ export default {
   groupBy,
   uniq,
   uniqBy,
-  uniqWith
+  uniqWith,
+  get,
+  set
 }

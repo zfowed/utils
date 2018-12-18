@@ -1,4 +1,4 @@
-# asynThrottle 异步函数去抖
+# `asynThrottle` 异步函数去抖
 
 创建一个异步的节流函数，在 wait 秒内最多执行 func 一次的函数，并且手动回调完成
 

@@ -1,4 +1,4 @@
-# Storage 数据缓存
+# `Storage` 数据缓存
 
 Storage.js 是用于数据缓存的javascript库。Storage.js支持在浏览器端中使用使用本地存储，或者使用内存，又或者可以自定义存储源。Storage.js没有依赖关系。
 

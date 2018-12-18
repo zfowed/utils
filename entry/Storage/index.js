@@ -1,54 +1,6 @@
 import debounce from '@zfowed/utils/dist/debounce'
-
-/**
- * 将路径分解成数组
- *
- * @param {string} path
- * @returns
- */
-function pathToArray (path) {
-  return Array.isArray(path) ? path : path.replace(/\[/g, '.').replace(/\]/g, '').split('.')
-}
-
-/**
- * 根据path获取一个对象某一项的值
- *
- * @param {object} object
- * @param {string} path
- * @param {*} defaultValue
- * @returns
- */
-function objectDeepGet (object, path, defaultValue) {
-  path = pathToArray(path)
-  path.unshift(object)
-  return path.reduce((data, key, index) => {
-    if (index !== path.length - 1) {
-      return data[key] || {}
-    }
-    return typeof data[key] !== 'undefined' ? data[key] : defaultValue
-  })
-}
-
-/**
- * 根据path设置一个对象某一项的值
- *
- * @param {object} object
- * @param {string} path
- * @param {*} value
- * @returns
- */
-function objectDeepSet (object, path, value) {
-  path = pathToArray(path)
-  path.unshift(object)
-  path.reduce((data, key, index) => {
-    if (index !== path.length - 1) {
-      if (!data[key]) { data[key] = {} }
-    } else {
-      data[key] = value
-    }
-    return data[key]
-  })
-}
+import objectDeepGet from '@zfowed/utils/dist/get'
+import objectDeepSet from '@zfowed/utils/dist/set'
 
 /**
  * 深复制
