@@ -4,5 +4,6 @@
 - [`debounce` 函数去抖](entry/debounce/README.md)
 - [`asynDebounce` 异步函数去抖](entry/asynDebounce/README.md)
 - [`cookie`](entry/cookie/README.md)
+- [`template` 模板引擎](entry/template/README.md)
 - [`FileSelection` 文件选择器](entry/FileSelection/README.md)
 - [`Queue` 队列](entry/Queue/README.md)

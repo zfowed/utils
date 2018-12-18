@@ -4,5 +4,6 @@ import Queue from '@zfowed/utils/dist/Queue'
 import cookie from '@zfowed/utils/dist/cookie'
 import debounce from '@zfowed/utils/dist/debounce'
 import asynDebounce from '@zfowed/utils/dist/asynDebounce'
+import template from '@zfowed/utils/dist/template'
 
-export default { Storage, FileSelection, Queue, cookie, debounce, asynDebounce }
+export default { Storage, FileSelection, Queue, cookie, debounce, asynDebounce, template }
