@@ -5,5 +5,15 @@ import cookie from '@zfowed/utils/dist/cookie'
 import debounce from '@zfowed/utils/dist/debounce'
 import asynDebounce from '@zfowed/utils/dist/asynDebounce'
 import template from '@zfowed/utils/dist/template'
+import groupBy from '@zfowed/utils/dist/groupBy'
 
-export default { Storage, FileSelection, Queue, cookie, debounce, asynDebounce, template }
+export default {
+  Storage,
+  FileSelection,
+  Queue,
+  cookie,
+  debounce,
+  asynDebounce,
+  template,
+  groupBy
+}
