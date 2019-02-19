@@ -229,7 +229,7 @@ class FileSelection {
         error.fileInfo = fileInfo
         return callback(error)
       }
-      if (this.options.parseImgBase64 && ['.jpg', '.png', '.gif'].indexOf(fileInfo.extname) >= 0) {
+      if (this.options.parseImgBase64 && fileInfo.type.indexOf('image') >= 0) {
         return this._getBase64ByImgFile(file, (error, result) => {
           if (error) {
             error.type = 'parseImgBase64'

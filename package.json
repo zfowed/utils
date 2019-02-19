@@ -1,12 +1,12 @@
 {
   "name": "@zfowed/utils",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "工具方法",
   "main": "dist/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch --config ./webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-    "publish": "npm publish",
+    "pub": "npm build && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
