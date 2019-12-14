@@ -1,8 +1,6 @@
 
 class Queue {
-  constructor (key) {
-    this._key = key || 'storage'
-    this._storage = this.decode(this.getStorage(this._key), {})
+  constructor () {
   }
 
   _start () {
