@@ -16,7 +16,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import groupBy from '@zfowed/utils/esm/groupBy'
+import groupBy from '@zfowed/utils/groupBy'
 ```
 
 ```javascript

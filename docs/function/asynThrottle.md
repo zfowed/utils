@@ -17,7 +17,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import asynThrottle from '@zfowed/utils/esm/asynThrottle'
+import asynThrottle from '@zfowed/utils/asynThrottle'
 ```
 
 ```javascript

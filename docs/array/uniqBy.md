@@ -16,7 +16,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import uniqBy from '@zfowed/utils/esm/uniqBy'
+import uniqBy from '@zfowed/utils/uniqBy'
 ```
 
 ```javascript

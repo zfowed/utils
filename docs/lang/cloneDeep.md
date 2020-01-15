@@ -15,7 +15,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import cloneDeep from '@zfowed/utils/esm/cloneDeep'
+import cloneDeep from '@zfowed/utils/cloneDeep'
 ```
 
 ```javascript

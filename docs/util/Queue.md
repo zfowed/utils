@@ -16,7 +16,7 @@ Queue.js 创建具有指定并发性的队列对象。 添加到队列中的任�
 ## 案例 (DEMO)
 
 ```javascript
-import Queue from '@zfowed/utils/esm/Queue'
+import Queue from '@zfowed/utils/Queue'
 ```
 
 ```javascript

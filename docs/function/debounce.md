@@ -16,7 +16,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import debounce from '@zfowed/utils/esm/debounce'
+import debounce from '@zfowed/utils/debounce'
 ```
 
 ```javascript

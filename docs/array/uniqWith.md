@@ -16,7 +16,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import uniqWith from '@zfowed/utils/esm/uniqWith'
+import uniqWith from '@zfowed/utils/uniqWith'
 ```
 
 ```javascript

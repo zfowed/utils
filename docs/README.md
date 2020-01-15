@@ -16,6 +16,6 @@ npm install @zfowed/utils -S
 import utils from '@zfowed/utils'
 
 // 按需引入
-import uniq from '@zfowed/utils/esm/uniq'
+import uniq from '@zfowed/utils/uniq'
 import { uniq } from '@zfowed/utils'
 ```

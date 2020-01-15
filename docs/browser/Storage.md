@@ -5,7 +5,7 @@ Storage.js 是用于数据存储的javascript库。Storage.js支持在浏览器�
 ## 基本用法
 
 ```javascript
-import Storage from '@zfowed/utils/esm/Storage'
+import Storage from '@zfowed/utils/Storage'
 ```
 
 ```javascript

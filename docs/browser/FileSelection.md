@@ -21,7 +21,7 @@
 ## 基本用法
 
 ```javascript
-import FileReader from '@zfowed/utils/esm/FileReader'
+import FileReader from '@zfowed/utils/FileReader'
 ```
 
 ```javascript

@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```javascript
-import cookie from '@zfowed/utils/esm/cookie'
+import cookie from '@zfowed/utils/cookie'
 ```
 
 获取全部 cookie

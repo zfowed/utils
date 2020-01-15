@@ -22,7 +22,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import template from '@zfowed/utils/esm/template'
+import template from '@zfowed/utils/template'
 ```
 
 ```javascript
