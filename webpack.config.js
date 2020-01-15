@@ -6,6 +6,7 @@ const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const mode = process.env.NODE_ENV
 const debug = mode !== 'production'
@@ -15,13 +16,13 @@ const getPath = function (...paths) {
 }
 
 const esmPath = './esm'
-const minPath = './min'
+const distPath = './dist'
 
 const webpackConfig = {
   mode,
   entry: {},
   output: {
-    path: getPath(minPath),
+    path: getPath(distPath),
     libraryTarget: 'umd',
     library: '[name]',
     libraryExport: 'default',
@@ -40,7 +41,7 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
     alias: {
-      '@zfowed/utils/min': getPath(esmPath),
+      '@zfowed/utils/dist': getPath(esmPath),
       '@zfowed/utils': getPath()
     }
   }
@@ -52,7 +53,7 @@ webpackConfig.plugins.push(...[
     verbose: true, // 将日志写入控制台
     cleanStaleWebpackAssets: true, // 重建时自动删除所有未使用的webpack资产
     protectWebpackAssets: true, // 不允许删除当前的Webpack资产
-    cleanOnceBeforeBuildPatterns: [getPath(minPath)], // 在构建模式之前清洗一次
+    cleanOnceBeforeBuildPatterns: [getPath(distPath)], // 在构建模式之前清洗一次
     cleanAfterEveryBuildPatterns: [], // 在构建模式之后清洗一次
     dangerouslyAllowCleanPatternsOutsideProject: false, // 允许在 process.cwd() 之外的干净模式
   }),
@@ -117,11 +118,17 @@ if (debug) {
       }
     }),
     new webpack.LoaderOptionsPlugin({
-      minimize: true
+      distimize: true
     }),
     new CompressionPlugin()
   ])
 }
+
+webpackConfig.plugins.push(...[
+  new CopyWebpackPlugin([
+    { from: getPath('package.json'), to: getPath(distPath, 'package.json') },
+  ]),
+])
 
 function addEntry (name) {
   const entryPath = getPath(esmPath, name)

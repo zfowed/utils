@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
     "docs": "docsify serve docs",
-    "pub": "npm build && npm publish dist",
+    "pub": "npm build && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
