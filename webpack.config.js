@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 
@@ -14,13 +14,14 @@ const getPath = function (...paths) {
   return path.join(__dirname, ...paths)
 }
 
+const esmPath = './esm'
+const minPath = './min'
+
 const webpackConfig = {
   mode,
-  entry: {
-    index: getPath('index')
-  },
+  entry: {},
   output: {
-    path: getPath('dist'),
+    path: getPath(minPath),
     libraryTarget: 'umd',
     library: '[name]',
     libraryExport: 'default',
@@ -39,32 +40,24 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
     alias: {
-      '@zfowed/utils/dist': getPath('/entry'),
-      '@zfowed/utils': getPath('/')
+      '@zfowed/utils/min': getPath(esmPath),
+      '@zfowed/utils': getPath()
     }
   }
 }
 
 webpackConfig.plugins.push(...[
-  new CleanWebpackPlugin([getPath('/dist')]),
+  new CleanWebpackPlugin({
+    dry: false, // 模拟文件删除
+    verbose: true, // 将日志写入控制台
+    cleanStaleWebpackAssets: true, // 重建时自动删除所有未使用的webpack资产
+    protectWebpackAssets: true, // 不允许删除当前的Webpack资产
+    cleanOnceBeforeBuildPatterns: [getPath(minPath)], // 在构建模式之前清洗一次
+    cleanAfterEveryBuildPatterns: [], // 在构建模式之后清洗一次
+    dangerouslyAllowCleanPatternsOutsideProject: false, // 允许在 process.cwd() 之外的干净模式
+  }),
   new ExtractTextPlugin('css/[name].css')
 ])
-
-if (debug) {
-  // webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
-} else {
-  webpackConfig.plugins.push(...[
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    }),
-    new CompressionPlugin()
-  ])
-}
 
 webpackConfig.module.rules.push(...[
   {
@@ -78,7 +71,7 @@ webpackConfig.module.rules.push(...[
         }
       }
     ],
-    include: getPath('/entry')
+    include: getPath(esmPath)
   },
   {
     test: /\.(css|scss|sass)$/,
@@ -113,8 +106,25 @@ webpackConfig.module.rules.push(...[
   }
 ])
 
+if (debug) {
+  webpackConfig.watch = true
+  // webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+} else {
+  webpackConfig.plugins.push(...[
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    }),
+    new CompressionPlugin()
+  ])
+}
+
 function addEntry (name) {
-  const entryPath = getPath('entry', name, `index.js`)
+  const entryPath = getPath(esmPath, name)
   const exists = fs.existsSync(entryPath)
 
   if (!exists) return
@@ -124,13 +134,17 @@ function addEntry (name) {
   if (!stat) return
 
   const isFile = stat.isFile()
+  const isDirectory = stat.isDirectory()
 
-  if (!isFile) return
+  if (isDirectory) {
+    webpackConfig.entry[name] = getPath(esmPath, name, 'index.js')
+  } else if (isFile) {
+    webpackConfig.entry[name] = entryPath
+  }
 
-  webpackConfig.entry[name] = entryPath
 }
 
-const files = fs.readdirSync(getPath('entry'))
+const files = fs.readdirSync(getPath(esmPath))
 
 for (const name of files) {
   addEntry(name)
