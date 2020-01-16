@@ -17,18 +17,15 @@
 ## 案例 (DEMO)
 
 ```javascript
-import get from '@zfowed/utils/get'
+import set from '@zfowed/utils/esm/set'
 ```
 
 ```javascript
 var object = { 'a': [{ 'b': { 'c': 3 } }] };
-
-get(object, 'a[0].b.c');
-// => 3
-
-get(object, ['a', '0', 'b', 'c']);
-// => 3
-
-get(object, 'a.b.c', 'default');
-// => 'default'
+set(object, 'a[0].b.c', 4);
+console.log(object.a[0].b.c);
+// => 4
+set(object, ['x', '0', 'y', 'z'], 5);
+console.log(object.x[0].y.z);
+// => 5
 ```
