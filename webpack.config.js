@@ -51,15 +51,6 @@ function getConfig (entry, library) {
   }
 
   webpackConfig.plugins.push(...[
-    new CleanWebpackPlugin({
-      dry: false, // 模拟文件删除
-      verbose: true, // 将日志写入控制台
-      cleanStaleWebpackAssets: true, // 重建时自动删除所有未使用的webpack资产
-      protectWebpackAssets: true, // 不允许删除当前的Webpack资产
-      cleanOnceBeforeBuildPatterns: [getPath(distPath), getPath('./docs/libs/utils')], // 在构建模式之前清洗一次
-      cleanAfterEveryBuildPatterns: [], // 在构建模式之后清洗一次
-      dangerouslyAllowCleanPatternsOutsideProject: false // 允许在 process.cwd() 之外的干净模式
-    }),
     new ExtractTextPlugin('css/[name].css')
   ])
 
@@ -137,6 +128,24 @@ function getConfig (entry, library) {
   return webpackConfig
 }
 
+const utilsConfig = getConfig({ index: getPath(esmPath, 'index') }, 'utils')
+
+utilsConfig.plugins.push(...[
+  new CleanWebpackPlugin({
+    dry: false, // 模拟文件删除
+    verbose: true, // 将日志写入控制台
+    cleanStaleWebpackAssets: true, // 重建时自动删除所有未使用的webpack资产
+    protectWebpackAssets: true, // 不允许删除当前的Webpack资产
+    cleanOnceBeforeBuildPatterns: [getPath(distPath)], // 在构建模式之前清洗一次
+    cleanAfterEveryBuildPatterns: [], // 在构建模式之后清洗一次
+    dangerouslyAllowCleanPatternsOutsideProject: false // 允许在 process.cwd() 之外的干净模式
+  })
+])
+
+configList.push(utilsConfig)
+
+// -------------------------------------------
+
 const moduleEntry = {}
 
 function addEntry (name) {
@@ -163,11 +172,7 @@ function addEntry (name) {
 const files = fs.readdirSync(getPath(esmPath))
 
 for (const name of files) {
-  if (name === 'index') {
-    configList.push(getConfig({ [name]: name }, 'utils.js'))
-  } else {
-    addEntry(name)
-  }
+  if (name !== 'index') addEntry(name)
 }
 
 configList.push(getConfig(moduleEntry, '[name].js'))
