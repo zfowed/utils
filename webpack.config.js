@@ -120,8 +120,7 @@ function getConfig (entry, library) {
 
   webpackConfig.plugins.push(...[
     new CopyWebpackPlugin([
-      { from: getPath('package.json'), to: getPath(distPath, 'package.json') },
-      { from: getPath(distPath), to: getPath('docs', 'libs', 'utils') }
+      { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
     ])
   ])
 
