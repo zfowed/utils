@@ -9,9 +9,9 @@ function isObj (obj) {
   return (typeof obj === 'object' || typeof obj === 'function') && obj !== null
 }
 
-export default function deepCopy (obj, hash = new WeakMap()) {
+function deepCopy (obj, hash = new WeakMap()) {
   let cloneObj
-  let Constructor = obj.constructor
+  const Constructor = obj.constructor
   switch (Constructor) {
     case RegExp:
       cloneObj = new Constructor(obj)
@@ -24,8 +24,11 @@ export default function deepCopy (obj, hash = new WeakMap()) {
       cloneObj = new Constructor()
       hash.set(obj, cloneObj)
   }
-  for (let key in obj) {
+  for (const key in obj) {
     cloneObj[key] = isObj(obj[key]) ? deepCopy(obj[key], hash) : obj[key]
   }
   return cloneObj
 }
+
+export { deepCopy }
+export default deepCopy

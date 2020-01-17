@@ -1,4 +1,4 @@
-export default function (func, wait, immediate) {
+function debounce (func, wait, immediate) {
   // immediate默认为false
   var timeout, args, context, timestamp, result
 
@@ -33,3 +33,6 @@ export default function (func, wait, immediate) {
     return result
   }
 }
+
+export { debounce }
+export default debounce

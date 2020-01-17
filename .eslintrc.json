@@ -1,20 +1,17 @@
 {
   "root": true,
   "env": {
-  },
-  "globals": {
-    "console": true,
-    "wx": true,
-    "App": true,
-    "Page": true,
-    "Component": true
+    "browser": true,
+    "es6": true,
+    "node": true
   },
   "extends": [
     "standard"
   ],
-  "rules": {
-  },
   "parserOptions": {
-    "parser": "babel-eslint"
-  }
+    "parser": "babel-eslint",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {}
 }

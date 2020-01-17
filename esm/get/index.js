@@ -9,7 +9,7 @@ function pathToArray (path) {
   return Array.isArray(path) ? path : path.replace(/\[/g, '.').replace(/\]/g, '').split('.')
 }
 
-export default function get (object, path, defaultValue) {
+function get (object, path, defaultValue) {
   path = pathToArray(path)
   path.unshift(object)
   return path.reduce((data, key, index) => {
@@ -19,3 +19,6 @@ export default function get (object, path, defaultValue) {
     return typeof data[key] !== 'undefined' ? data[key] : defaultValue
   })
 }
+
+export { get }
+export default get

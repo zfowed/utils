@@ -21,3 +21,4 @@
   * [cookie](browser/cookie)
   * [Storage](browser/Storage)
   * [FileSelection](browser/FileSelection)
+  * [Socket](browser/Socket)

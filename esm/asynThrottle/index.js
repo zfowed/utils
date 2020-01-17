@@ -1,4 +1,4 @@
-export default function asynThrottle (func, delay, isEnsure) {
+function asynThrottle (func, delay, isEnsure) {
   delay = delay || 0
   isEnsure = !!isEnsure
 
@@ -55,3 +55,6 @@ export default function asynThrottle (func, delay, isEnsure) {
     return fnApply(this, args)
   }
 }
+
+export { asynThrottle }
+export default asynThrottle

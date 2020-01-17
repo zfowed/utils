@@ -1,4 +1,4 @@
-export default function groupBy (collection, iteratee) {
+function groupBy (collection, iteratee) {
   const group = {}
   for (let index = 0; index < collection.length; index++) {
     const item = collection[index]
@@ -8,3 +8,6 @@ export default function groupBy (collection, iteratee) {
   }
   return group
 }
+
+export { groupBy }
+export default groupBy

@@ -1,7 +1,10 @@
-import uniqWith from '@zfowed/utils/esm/uniqWith'
+import { uniqWith } from '@zfowed/utils/esm/uniqWith'
 
-export default function uniq (array, iteratee) {
+function uniq (array, iteratee) {
   return uniqWith(array, function (a, b) {
     return a === b
   })
 }
+
+export { uniqWith, uniq }
+export default uniq

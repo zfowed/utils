@@ -1,31 +1,20 @@
-export { default as Storage } from './Storage'
-export { default as FileSelection } from './FileSelection'
-export { default as Queue } from './Queue'
-export { default as cookie } from './cookie'
-export { default as debounce } from './debounce'
-export { default as asynThrottle } from './asynThrottle'
-export { default as template } from './template'
-export { default as groupBy } from './groupBy'
-export { default as uniq } from './uniq'
-export { default as uniqBy } from './uniqBy'
-export { default as uniqWith } from './uniqWith'
-export { default as get } from './get'
-export { default as set } from './set'
-export { default as cloneDeep } from './cloneDeep'
 
-export default {
-  Storage,
-  FileSelection,
-  Queue,
-  cookie,
-  debounce,
-  asynThrottle,
-  template,
-  groupBy,
-  uniq,
-  uniqBy,
-  uniqWith,
-  get,
-  set,
-  cloneDeep
+/**
+ * 该文件导入当前目录所有模块
+ * 这是一次性方法，不应有任何理由来编辑此文件。
+ */
+
+const files = require.context('.', true, /^\.\/([^/]+?)\/index\.js$/)
+const modules = {}
+
+files.keys().forEach(key => {
+  if (key === './index.js') return
+  modules[key.replace(/^\.\/([^/]+?)\/index\.js$/, '$1')] = files(key).default
+})
+
+// export { ...modules }
+// export default modules
+module.exports = {
+  default: modules,
+  ...modules
 }

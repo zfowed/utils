@@ -1,4 +1,4 @@
-export default function uniqWith (array, iteratee) {
+function uniqWith (array, iteratee) {
   var hash = []
   for (var i = 0; i < array.length; i++) {
     for (var j = i + 1; j < array.length; j++) {
@@ -11,3 +11,6 @@ export default function uniqWith (array, iteratee) {
   }
   return hash
 }
+
+export { uniqWith }
+export default uniqWith

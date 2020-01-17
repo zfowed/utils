@@ -9,7 +9,7 @@ function pathToArray (path) {
   return Array.isArray(path) ? path : path.replace(/\[/g, '.').replace(/\]/g, '').split('.')
 }
 
-export default function set (object, path, value) {
+function set (object, path, value) {
   path = pathToArray(path)
   path.unshift(object)
   path.reduce((data, key, index) => {
@@ -21,3 +21,6 @@ export default function set (object, path, value) {
     return data[key]
   })
 }
+
+export { set }
+export default set

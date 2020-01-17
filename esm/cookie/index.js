@@ -86,4 +86,5 @@ cookie.clear = function () {
   }
 }
 
+export { cookie }
 export default cookie

@@ -107,4 +107,5 @@ class Storage {
 
 Storage.prototype.syncLocalStorage = debounce(Storage.prototype.syncLocalStorageEnsure, 200)
 
+export { Storage }
 export default Storage

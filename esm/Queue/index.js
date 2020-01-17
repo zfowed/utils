@@ -1,11 +1,11 @@
 
 class Queue {
   constructor (worker, concurrency) {
-    this.tasks = [];
-    this.worker = typeof worker === 'function' ? worker : null;
-    this.concurrencyMax = typeof concurrency === 'number' && concurrency > 0 ? concurrency : 1;
-    this.concurrencyCut = 0;
-    this.drain = null;
+    this.tasks = []
+    this.worker = typeof worker === 'function' ? worker : null
+    this.concurrencyMax = typeof concurrency === 'number' && concurrency > 0 ? concurrency : 1
+    this.concurrencyCut = 0
+    this.drain = null
   }
 
   _start () {
@@ -32,4 +32,5 @@ class Queue {
   }
 }
 
+export { Queue }
 export default Queue

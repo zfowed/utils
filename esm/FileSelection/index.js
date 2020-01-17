@@ -65,17 +65,17 @@ class FileSelection {
     if (typeof options !== 'object') options = {}
     const result = {}
     // this._isPC
-    result['multiple'] = !!options.multiple
-    result['limitExt'] = typeof options.limitExt === 'string' ? options.limitExt.split(',') : undefined
-    result['accept'] = typeof options.accept === 'string' ? options.accept : undefined
-    result['maxSize'] = typeof options.maxSize === 'number' ? options.maxSize : undefined
-    result['minSize'] = typeof options.minSize === 'number' ? options.minSize : undefined
-    result['base64'] = !!options.base64
-    result['parseImgBase64'] = !!options.parseImgBase64
-    result['forcedChange'] = typeof options.forcedChange === 'undefined' ? true : !!options.forcedChange
-    result['onChange'] = typeof options.onChange === 'function' ? options.onChange : undefined
-    result['onError'] = typeof options.onError === 'function' ? options.onError : undefined
-    if (!result['accept'] && this._isPC && result['limitExt']) result['accept'] = result['limitExt'].join(',')
+    result.multiple = !!options.multiple
+    result.limitExt = typeof options.limitExt === 'string' ? options.limitExt.split(',') : undefined
+    result.accept = typeof options.accept === 'string' ? options.accept : undefined
+    result.maxSize = typeof options.maxSize === 'number' ? options.maxSize : undefined
+    result.minSize = typeof options.minSize === 'number' ? options.minSize : undefined
+    result.base64 = !!options.base64
+    result.parseImgBase64 = !!options.parseImgBase64
+    result.forcedChange = typeof options.forcedChange === 'undefined' ? true : !!options.forcedChange
+    result.onChange = typeof options.onChange === 'function' ? options.onChange : undefined
+    result.onError = typeof options.onError === 'function' ? options.onError : undefined
+    if (!result.accept && this._isPC && result.limitExt) result.accept = result.limitExt.join(',')
     return result
   }
 
@@ -141,7 +141,7 @@ class FileSelection {
   _multitaskingRun (tasks, process, callback) {
     const tasksLen = tasks.length
     let runNumber = 0
-    let resolveResults = []
+    const resolveResults = []
     let rejectError = null
     const next = function (error, result) {
       if (rejectError) return
@@ -318,7 +318,7 @@ class FileSelection {
    * @memberof FileSelection
    */
   files () {
-    let files = []
+    const files = []
     for (let i = 0; i < this._values.length; i++) {
       files.push(this._values[i].file)
     }
@@ -340,4 +340,5 @@ class FileSelection {
 
 FileSelection._inputFileDiv = null
 
+export { FileSelection }
 export default FileSelection
