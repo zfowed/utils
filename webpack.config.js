@@ -50,11 +50,7 @@ const webpackConfig = {
 }
 
 webpackConfig.plugins.push(...[
-  new ExtractTextPlugin('css/[name].css'),
-  new CopyWebpackPlugin([
-    { from: getPath('package.json'), to: getPath(distPath, 'package.json') },
-    { from: getPath('.npmignore'), to: getPath(distPath, '.npmignore') }
-  ])
+  new ExtractTextPlugin('css/[name].css')
 ])
 
 webpackConfig.module.rules.push(...[
@@ -127,6 +123,12 @@ if (debug) {
     new CompressionPlugin()
   ])
 }
+
+webpackConfig.plugins.push(...[
+  new CopyWebpackPlugin([
+    { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
+  ])
+])
 
 // -------------------------------------------
 
