@@ -3,8 +3,8 @@ class Socket {
     this.options = {
       autoConnect: false,
       getEmitId: () => String(this._emitId++),
-      handleEmitParams: (reqId, name, params) => ({ reqId, name, params }),
-      handleResponseCallbackParams: (resId, name, params) => ({ resId, name, params }),
+      handleEmitParams: (reqId, name, params) => JSON.stringify({ reqId, name, params }),
+      handleResponseCallbackParams: (resId, name, params) => JSON.stringify({ resId, name, params }),
       handleMessage: (message, listenerCallback, emitCallback, responseCallback) => {
         const data = JSON.parse(message)
         if (data.reqId) return emitCallback(data.resId, data.result)
@@ -75,7 +75,7 @@ class Socket {
 
   _handleResponseCallback (resId, name, ...result) {
     const data = this.options.handleResponseCallbackParams(resId, name, result)
-    this.io().then((socket) => socket.send(JSON.stringify(data)))
+    this.io().then((socket) => socket.send(data))
   }
 
   // 打开链接
@@ -121,7 +121,7 @@ class Socket {
     }
     const data = this.options.handleEmitParams(reqId, name, params)
     this.io().then((socket) => {
-      socket.send(JSON.stringify(data))
+      socket.send(data)
     })
     return this
   }
