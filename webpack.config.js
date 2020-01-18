@@ -18,162 +18,143 @@ const getPath = function (...paths) {
 const esmPath = './esm'
 const distPath = './dist'
 
-const configList = []
+// --------------------------------------------------------------
 
-function getConfig (entry, library) {
-  const webpackConfig = {
-    mode,
-    entry: entry,
-    output: {
-      path: getPath(distPath),
-      libraryTarget: 'umd',
-      library: library || '[name].js',
-      libraryExport: 'default',
-      publicPath: '/',
-      chunkFilename: '[name].js',
-      filename: '[name].js'
-    },
-    performance: {
-      hints: false
-    },
-    devtool: debug ? '#source-map' : '#cheap-module-source-map',
-    plugins: [],
-    module: {
-      rules: []
-    },
-    resolve: {
-      extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
-      alias: {
-        '@zfowed/utils/dist': getPath(esmPath),
-        '@zfowed/utils': getPath()
-      }
+const webpackConfig = {
+  mode,
+  entry: {},
+  output: {
+    path: getPath(distPath),
+    libraryTarget: 'umd',
+    library: '[name].js',
+    libraryExport: 'default',
+    publicPath: '/',
+    chunkFilename: '[name].js',
+    filename: '[name].js'
+  },
+  performance: {
+    hints: false
+  },
+  devtool: debug ? '#source-map' : '#cheap-module-source-map',
+  plugins: [],
+  module: {
+    rules: []
+  },
+  resolve: {
+    extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
+    alias: {
+      '@zfowed/utils/dist': getPath(esmPath),
+      '@zfowed/utils': getPath()
     }
   }
-
-  webpackConfig.plugins.push(...[
-    new ExtractTextPlugin('css/[name].css')
-  ])
-
-  webpackConfig.module.rules.push(...[
-    {
-      test: /\.(es6|js)?$/,
-      use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['babel-plugin-syntax-dynamic-import']
-          }
-        }
-      ],
-      include: getPath(esmPath)
-    },
-    {
-      test: /\.(css|scss|sass)$/,
-      use: ExtractTextPlugin.extract({
-        use: [{
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1
-          }
-        }, {
-          loader: 'postcss-loader'
-        }, {
-          loader: 'sass-loader'
-        }]
-      })
-    },
-    {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        mimetype: 'application/font-woff',
-        name: 'font/[hash:32].[ext]'
-      }
-    },
-    {
-      test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'file-loader',
-      options: {
-        name: 'font/[hash:32].[ext]'
-      }
-    }
-  ])
-
-  if (debug) {
-    webpackConfig.watch = true
-    // webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
-  } else {
-    webpackConfig.plugins.push(...[
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: '"production"'
-        }
-      }),
-      new webpack.LoaderOptionsPlugin({
-        distimize: true
-      }),
-      new CompressionPlugin()
-    ])
-  }
-
-  webpackConfig.plugins.push(...[
-    new CopyWebpackPlugin([
-      { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
-    ])
-  ])
-
-  return webpackConfig
 }
 
-const utilsConfig = getConfig({ index: getPath(esmPath, 'index') }, 'utils')
-
-utilsConfig.plugins.push(...[
-  new CleanWebpackPlugin({
-    dry: false, // 模拟文件删除
-    verbose: true, // 将日志写入控制台
-    cleanStaleWebpackAssets: true, // 重建时自动删除所有未使用的webpack资产
-    protectWebpackAssets: true, // 不允许删除当前的Webpack资产
-    cleanOnceBeforeBuildPatterns: [getPath(distPath)], // 在构建模式之前清洗一次
-    cleanAfterEveryBuildPatterns: [], // 在构建模式之后清洗一次
-    dangerouslyAllowCleanPatternsOutsideProject: false // 允许在 process.cwd() 之外的干净模式
-  })
+webpackConfig.plugins.push(...[
+  new ExtractTextPlugin('css/[name].css'),
+  new CopyWebpackPlugin([
+    { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
+  ])
 ])
 
-configList.push(utilsConfig)
+webpackConfig.module.rules.push(...[
+  {
+    test: /\.(es6|js)?$/,
+    use: [
+      {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+          plugins: ['babel-plugin-syntax-dynamic-import']
+        }
+      }
+    ],
+    include: getPath(esmPath)
+  },
+  {
+    test: /\.(css|scss|sass)$/,
+    use: ExtractTextPlugin.extract({
+      use: [{
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1
+        }
+      }, {
+        loader: 'postcss-loader'
+      }, {
+        loader: 'sass-loader'
+      }]
+    })
+  },
+  {
+    test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    loader: 'url-loader',
+    options: {
+      limit: 10000,
+      mimetype: 'application/font-woff',
+      name: 'font/[hash:32].[ext]'
+    }
+  },
+  {
+    test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    loader: 'file-loader',
+    options: {
+      name: 'font/[hash:32].[ext]'
+    }
+  }
+])
+
+// --------------------------------------------------------------
+
+if (debug) {
+  webpackConfig.watch = true
+} else {
+  webpackConfig.plugins.push(...[
+    new CleanWebpackPlugin({
+      dry: false, // 模拟文件删除
+      verbose: true, // 将日志写入控制台
+      cleanStaleWebpackAssets: true, // 重建时自动删除所有未使用的webpack资产
+      protectWebpackAssets: true, // 不允许删除当前的Webpack资产
+      cleanOnceBeforeBuildPatterns: [getPath(distPath)], // 在构建模式之前清洗一次
+      cleanAfterEveryBuildPatterns: [], // 在构建模式之后清洗一次
+      dangerouslyAllowCleanPatternsOutsideProject: false // 允许在 process.cwd() 之外的干净模式
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new CompressionPlugin()
+  ])
+}
 
 // -------------------------------------------
 
-const moduleEntry = {}
+function getEntry () {
+  const moduleEntry = {}
 
-function addEntry (name) {
-  const entryPath = getPath(esmPath, name)
-  const exists = fs.existsSync(entryPath)
+  const files = fs.readdirSync(getPath(esmPath))
 
-  if (!exists) return
+  for (const name of files) {
+    if (name === 'index.js') continue
 
-  const stat = fs.statSync(entryPath)
+    const entryPath = getPath(esmPath, name)
 
-  if (!stat) return
+    const stat = fs.statSync(entryPath)
 
-  const isFile = stat.isFile()
-  const isDirectory = stat.isDirectory()
+    if (!stat) continue
 
-  const basename = path.basename(entryPath, path.extname(entryPath))
-  if (isDirectory) {
-    moduleEntry[basename] = entryPath
-  } else if (isFile) {
-    moduleEntry[basename] = entryPath
+    // const isFile = stat.isFile()
+    const isDirectory = stat.isDirectory()
+
+    const basename = path.basename(entryPath, path.extname(entryPath))
+    if (isDirectory) {
+      moduleEntry[basename] = entryPath
+    }
   }
+
+  return moduleEntry
 }
 
-const files = fs.readdirSync(getPath(esmPath))
+webpackConfig.entry = getEntry()
 
-for (const name of files) {
-  if (name !== 'index') addEntry(name)
-}
-
-configList.push(getConfig(moduleEntry, '[name].js'))
-
-module.exports = configList
+module.exports = webpackConfig
