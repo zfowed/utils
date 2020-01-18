@@ -9,7 +9,7 @@ function isObj (obj) {
   return (typeof obj === 'object' || typeof obj === 'function') && obj !== null
 }
 
-function deepCopy (obj, hash = new WeakMap()) {
+function cloneDeep (obj, hash = new WeakMap()) {
   let cloneObj
   const Constructor = obj.constructor
   switch (Constructor) {
@@ -25,10 +25,10 @@ function deepCopy (obj, hash = new WeakMap()) {
       hash.set(obj, cloneObj)
   }
   for (const key in obj) {
-    cloneObj[key] = isObj(obj[key]) ? deepCopy(obj[key], hash) : obj[key]
+    cloneObj[key] = isObj(obj[key]) ? cloneDeep(obj[key], hash) : obj[key]
   }
   return cloneObj
 }
 
-export { deepCopy }
-export default deepCopy
+export { cloneDeep }
+export default cloneDeep

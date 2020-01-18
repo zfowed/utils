@@ -1,17 +1,7 @@
+import cloneDeep from '@zfowed/utils/esm/cloneDeep'
 import debounce from '@zfowed/utils/esm/debounce'
 import objectDeepGet from '@zfowed/utils/esm/get'
 import objectDeepSet from '@zfowed/utils/esm/set'
-
-/**
- * 深复制
- *
- * @param {*} value
- * @returns
- */
-function deepCopy (value) {
-  if (typeof value === 'undefined') return undefined
-  return JSON.parse(JSON.stringify(value))
-}
 
 class Storage {
   constructor (key) {
@@ -84,7 +74,7 @@ class Storage {
   getItem (path, defaultValue) {
     this.syncLocalStorage()
     const value = objectDeepGet(this.storage, path, defaultValue)
-    return deepCopy(value)
+    return cloneDeep(value)
   }
 
   /**
