@@ -52,7 +52,8 @@ const webpackConfig = {
 webpackConfig.plugins.push(...[
   new ExtractTextPlugin('css/[name].css'),
   new CopyWebpackPlugin([
-    { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
+    { from: getPath('package.json'), to: getPath(distPath, 'package.json') },
+    { from: getPath('.npmignore'), to: getPath(distPath, '.npmignore') }
   ])
 ])
 
