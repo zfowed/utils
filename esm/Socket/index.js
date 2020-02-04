@@ -158,11 +158,14 @@ class Socket {
   off (name, callback) {
     if (!this._listenerStorage[name]) return this
     if (!callback) {
-      this._listenerStorage[name] = []
+      delete this._listenerStorage[name]
     } else {
       const index = this._listenerStorage[name].indexOf(callback)
       if (index >= 0) {
         this._listenerStorage[name].splice(index, 1)
+      }
+      if (!this._listenerStorage[name].length) {
+        delete this._listenerStorage[name]
       }
     }
     return this
