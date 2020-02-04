@@ -21,13 +21,14 @@ const distPath = './dist'
 // --------------------------------------------------------------
 
 const webpackConfig = {
-  mode,
+  // mode,
+  target: 'web',
   entry: {},
   output: {
     path: getPath(distPath),
     libraryTarget: 'umd',
-    library: '[name].js',
-    libraryExport: 'default',
+    library: '[name]',
+    globalObject: 'this',
     publicPath: '/',
     chunkFilename: '[name].js',
     filename: '[name].js'
