@@ -1,4 +1,4 @@
-import { uniqWith } from '@zfowed/utils/esm/uniqWith'
+import { uniqWith } from '@zfowed/utils/uniqWith'
 
 function uniqBy (array, iteratee) {
   return uniqWith(array, function (a, b) {

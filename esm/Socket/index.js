@@ -1,8 +1,10 @@
+import uniqueId from '@zfowed/utils/uniqueId'
+
 class Socket {
   constructor (url, options) {
     this.options = {
-      autoConnect: false,
-      getEmitId: () => String(this._emitId++),
+      idleClose: 10 * 60 * 1000,
+      getEmitId: () => uniqueId('socket_'),
       handleEmitParams: (reqId, name, params) => JSON.stringify({ reqId, name, params }),
       handleResponseCallbackParams: (resId, name, params) => JSON.stringify({ resId, name, params }),
       handleMessage: (message, listenerCallback, emitCallback, responseCallback) => {
@@ -22,10 +24,6 @@ class Socket {
 
     this._socket = null
     this._io = null
-
-    if (options.autoConnect) {
-      this.open()
-    }
   }
 
   __error (reject) {
@@ -34,13 +32,12 @@ class Socket {
   }
 
   __open (resolve) {
-    this._socket.addEventListener('message', this.__message.bind(this))
-    this._socket.addEventListener('close', this.__close.bind(this))
+    this._openMonitorIdle()
     return resolve()
   }
 
   __close () {
-    this.close()
+    this._closeMonitorIdle()
   }
 
   __message (event) {
@@ -78,11 +75,34 @@ class Socket {
     this.io().then((socket) => socket.send(data))
   }
 
+  _getEmitId () {
+    return this.options.getEmitId()
+  }
+
+  _openMonitorIdle () {
+    this._closeMonitorIdle()
+    if (!this.options.idleClose) return
+    this._monitorIdleId = setInterval(() => {
+      if (Object.keys(this._listenerStorage).length) return
+      if (Object.keys(this._emitStorage).length) return
+      this.close()
+    }, this.options.idleClose)
+  }
+
+  _closeMonitorIdle () {
+    if (!this.options.idleClose) return
+    clearTimeout(this._monitorIdleId)
+    this._monitorIdleId = null
+  }
+
   // 打开链接
   open (url) {
+    this.close()
     if (url) this._url = url
     return new Promise((resolve, reject) => {
       this._socket = new WebSocket(this._url)
+      this._socket.addEventListener('close', this.__close.bind(this))
+      this._socket.addEventListener('message', this.__message.bind(this))
       this._socket.addEventListener('error', this.__error.bind(this, reject))
       this._socket.addEventListener('open', this.__open.bind(this, resolve))
       return this
@@ -106,23 +126,19 @@ class Socket {
     return this._io
   }
 
-  // 获取一个发送ID
-  getEmitId () {
-    return this.options.getEmitId()
-  }
-
   // 发送事件
   emit (name, ...params) {
     const callback = typeof params[params.length - 1] === 'function' ? params.pop() : undefined
     let reqId
     if (callback) {
-      reqId = this.getEmitId(name, params)
+      reqId = this._getEmitId(name, params)
       this._emitStorage[reqId] = callback
     }
     const data = this.options.handleEmitParams(reqId, name, params)
     this.io().then((socket) => {
       socket.send(data)
     })
+    this._openMonitorIdle()
     return this
   }
 
@@ -134,6 +150,7 @@ class Socket {
     }
     this._listenerStorage[name].push(callback)
     this.io()
+    this._openMonitorIdle()
     return this
   }
 
@@ -152,5 +169,4 @@ class Socket {
   }
 }
 
-export { Socket }
 export default Socket

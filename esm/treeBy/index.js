@@ -1,4 +1,4 @@
-import { cloneDeep } from '@zfowed/utils/esm/cloneDeep'
+import { cloneDeep } from '@zfowed/utils/cloneDeep'
 
 function treeBy (array, iteratee, childrensKey = 'children') {
   const tree = cloneDeep(array)

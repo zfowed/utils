@@ -1,7 +1,7 @@
-import cloneDeep from '@zfowed/utils/esm/cloneDeep'
-import debounce from '@zfowed/utils/esm/debounce'
-import objectDeepGet from '@zfowed/utils/esm/get'
-import objectDeepSet from '@zfowed/utils/esm/set'
+import cloneDeep from '@zfowed/utils/cloneDeep'
+import debounce from '@zfowed/utils/debounce'
+import objectDeepGet from '@zfowed/utils/get'
+import objectDeepSet from '@zfowed/utils/set'
 
 class Storage {
   constructor (key) {

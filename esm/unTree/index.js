@@ -1,4 +1,4 @@
-import { cloneDeep } from '@zfowed/utils/esm/cloneDeep'
+import { cloneDeep } from '@zfowed/utils/cloneDeep'
 
 function map (result, array, childrensKey) {
   for (const item of array) {

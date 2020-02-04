@@ -21,7 +21,7 @@ const distPath = './dist'
 // --------------------------------------------------------------
 
 const webpackConfig = {
-  // mode,
+  mode,
   target: 'web',
   entry: {},
   output: {
@@ -45,7 +45,7 @@ const webpackConfig = {
     extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
     alias: {
       '@zfowed/utils/dist': getPath(esmPath),
-      '@zfowed/utils': getPath()
+      '@zfowed/utils': getPath(esmPath)
     }
   }
 }
