@@ -172,4 +172,5 @@ class Socket {
   }
 }
 
+export { Socket }
 export default Socket
