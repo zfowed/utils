@@ -7,6 +7,8 @@ class Storage {
   constructor (key) {
     this._key = key || 'storage'
     this._storage = undefined
+
+    this.syncLocalStorage = debounce(this.syncLocalStorageEnsure, 200)
   }
 
   get storage () {
@@ -51,7 +53,7 @@ class Storage {
   }
 
   setStorage (key, value) {
-    return typeof window !== 'undefined' && window.localStorage && window.localStorage.setItem && window.localStorage.setItem(key, value)
+    return (typeof window !== 'undefined' && window.localStorage && window.localStorage.setItem && window.localStorage.setItem(key, value))
   }
 
   /**
@@ -94,8 +96,6 @@ class Storage {
     return this.syncLocalStorage()
   }
 }
-
-Storage.prototype.syncLocalStorage = debounce(Storage.prototype.syncLocalStorageEnsure, 200)
 
 export { Storage }
 export default Storage
