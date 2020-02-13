@@ -127,12 +127,12 @@ class Socket {
   // 打开链接
   open (url, queryData) {
     if (url) {
-      const [path, queryString, hash] = url.match(/^(.*?)(?:\?(.*?))?(#.*?)?$/)
+      const [, path, queryString, hash] = url.match(/^(.*?)(?:\?(.*?))?(#.*?)?$/)
       const newQueryString = this._queryObjectToString({
-        ...this._getQueryData(queryString),
+        ...this._queryStringToObject(queryString),
         ...queryData
       })
-      this.url = path + (newQueryString && `?${newQueryString}`) + hash
+      this.url = (path || '') + ((newQueryString && `?${newQueryString}`) || '') + (hash || '')
     }
     this.close()
     this._socket = new WebSocket(this.url)
@@ -152,6 +152,8 @@ class Socket {
     }
     this._socket = null
     this._io = null
+    this._listenerStorage = {}
+    this._emitStorage = {}
     return this
   }
 
