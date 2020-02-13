@@ -2,6 +2,10 @@ import uniqueId from '@zfowed/utils/uniqueId'
 
 class Socket {
   constructor (url, options) {
+    if (typeof url === 'object') {
+      options = url
+      url = options.url
+    }
     this.options = {
       idleClose: 10 * 60 * 1000,
       getEmitId: () => uniqueId('socket_'),
@@ -95,12 +99,44 @@ class Socket {
     this._monitorIdleId = null
   }
 
-  // 打开链接
-  open (url) {
+  _queryStringToObject (queryString) {
+    const queryData = {}
+    const queryArray = queryString.split('&')
+    for (let i = 0; i < queryArray.length; i++) {
+      const [key, value] = queryArray[i].split('=')
+      queryData[decodeURIComponent(key)] = decodeURIComponent(value)
+    }
+    return queryData
+  }
+
+  _queryObjectToString (queryObject) {
+    return Object.entries(queryObject).map(([key, value]) => {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(value)
+    }).join('&')
+  }
+
+  get url () {
+    return this._url
+  }
+
+  set url (url) {
     this.close()
-    if (url) this._url = url
+    this._url = url
+  }
+
+  // 打开链接
+  open (url, queryData) {
+    if (url) {
+      const [path, queryString, hash] = url.match(/^(.*?)(?:\?(.*?))?(#.*?)?$/)
+      const newQueryString = this._queryObjectToString({
+        ...this._getQueryData(queryString),
+        ...queryData
+      })
+      this.url = path + (newQueryString && `?${newQueryString}`) + hash
+    }
+
     return new Promise((resolve, reject) => {
-      this._socket = new WebSocket(this._url)
+      this._socket = new WebSocket(this.url)
       this._socket.addEventListener('close', this.__close.bind(this))
       this._socket.addEventListener('message', this.__message.bind(this))
       this._socket.addEventListener('error', this.__error.bind(this, reject))
