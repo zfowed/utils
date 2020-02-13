@@ -134,9 +134,9 @@ class Socket {
       })
       this.url = path + (newQueryString && `?${newQueryString}`) + hash
     }
-
+    this.close()
+    this._socket = new WebSocket(this.url)
     return new Promise((resolve, reject) => {
-      this._socket = new WebSocket(this.url)
       this._socket.addEventListener('close', this.__close.bind(this))
       this._socket.addEventListener('message', this.__message.bind(this))
       this._socket.addEventListener('error', this.__error.bind(this, reject))
@@ -158,7 +158,11 @@ class Socket {
   // 获取 socket
   io () {
     if (this._io) return this._io
-    this._io = this.open().then(() => this._socket)
+    if (this._socket) {
+      this._io = Promise.resolve(this._socket)
+    } else {
+      this._io = this.open().then(() => this._socket)
+    }
     return this._io
   }
 
