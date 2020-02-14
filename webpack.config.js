@@ -127,7 +127,8 @@ if (debug) {
 
 webpackConfig.plugins.push(...[
   new CopyWebpackPlugin([
-    { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
+    { from: getPath('package.json'), to: getPath(distPath, 'package.json') },
+    { from: getPath('README.md'), to: getPath(distPath, 'README.md') }
   ])
 ])
 
