@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/zfowed/utils/issues"
   },
-  "homepage": "https://github.com/zfowed/utils#readme",
+  "homepage": "https://zfowed.github.io/utils/",
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
