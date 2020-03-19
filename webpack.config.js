@@ -22,12 +22,13 @@ const distPath = './dist'
 
 const webpackConfig = {
   mode,
+  target: 'web',
   entry: {},
   output: {
     path: getPath(distPath),
     libraryTarget: 'umd',
-    library: '[name].js',
-    libraryExport: 'default',
+    library: '[name]',
+    globalObject: 'this',
     publicPath: '/',
     chunkFilename: '[name].js',
     filename: '[name].js'
@@ -44,7 +45,7 @@ const webpackConfig = {
     extensions: ['.js', '.es6', '.jsx', '.json', '.css', '.sass', '.scss', '.png', '.jpg'],
     alias: {
       '@zfowed/utils/dist': getPath(esmPath),
-      '@zfowed/utils': getPath()
+      '@zfowed/utils': getPath(esmPath)
     }
   }
 }
@@ -126,7 +127,8 @@ if (debug) {
 
 webpackConfig.plugins.push(...[
   new CopyWebpackPlugin([
-    { from: getPath('package.json'), to: getPath(distPath, 'package.json') }
+    { from: getPath('package.json'), to: getPath(distPath, 'package.json') },
+    { from: getPath('README.md'), to: getPath(distPath, 'README.md') }
   ])
 ])
 

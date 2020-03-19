@@ -1,4 +1,4 @@
-import { cloneDeep, treeBy } from '@zfowed/utils/esm/treeBy'
+import { cloneDeep, treeBy } from '@zfowed/utils/treeBy'
 
 function tree (array, akey, bKey, childrensKey) {
   return treeBy(array, (a, b) => a[akey] === b[bKey], childrensKey)

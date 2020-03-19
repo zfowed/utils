@@ -17,7 +17,7 @@
 ## 案例 (DEMO)
 
 ```javascript
-import set from '@zfowed/utils/esm/set'
+import set from '@zfowed/utils/set'
 ```
 
 ```javascript

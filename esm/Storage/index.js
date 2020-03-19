@@ -1,12 +1,14 @@
-import cloneDeep from '@zfowed/utils/esm/cloneDeep'
-import debounce from '@zfowed/utils/esm/debounce'
-import objectDeepGet from '@zfowed/utils/esm/get'
-import objectDeepSet from '@zfowed/utils/esm/set'
+import cloneDeep from '@zfowed/utils/cloneDeep'
+import debounce from '@zfowed/utils/debounce'
+import objectDeepGet from '@zfowed/utils/get'
+import objectDeepSet from '@zfowed/utils/set'
 
 class Storage {
   constructor (key) {
     this._key = key || 'storage'
     this._storage = undefined
+
+    this.syncLocalStorage = debounce(this.syncLocalStorageEnsure, 200)
   }
 
   get storage () {
@@ -51,7 +53,7 @@ class Storage {
   }
 
   setStorage (key, value) {
-    return typeof window !== 'undefined' && window.localStorage && window.localStorage.setItem && window.localStorage.setItem(key, value)
+    return (typeof window !== 'undefined' && window.localStorage && window.localStorage.setItem && window.localStorage.setItem(key, value))
   }
 
   /**
@@ -94,8 +96,6 @@ class Storage {
     return this.syncLocalStorage()
   }
 }
-
-Storage.prototype.syncLocalStorage = debounce(Storage.prototype.syncLocalStorageEnsure, 200)
 
 export { Storage }
 export default Storage
