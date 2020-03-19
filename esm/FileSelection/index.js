@@ -66,7 +66,7 @@ class FileSelection {
     const result = {}
     // this._isPC
     result.multiple = !!options.multiple
-    result.limitExt = typeof options.limitExt === 'string' ? options.limitExt.split(',') : undefined
+    result.limitExt = typeof options.limitExt === 'string' ? options.limitExt.toLowerCase().split(',') : undefined
     result.accept = typeof options.accept === 'string' ? options.accept : undefined
     result.maxSize = typeof options.maxSize === 'number' ? options.maxSize : undefined
     result.minSize = typeof options.minSize === 'number' ? options.minSize : undefined
@@ -225,7 +225,7 @@ class FileSelection {
         error.type = 'maxSize'
         error.fileInfo = fileInfo
         return callback(error)
-      } else if (this.options.limitExt && this.options.limitExt.indexOf(fileInfo.extname) < 0) {
+      } else if (this.options.limitExt && this.options.limitExt.indexOf(fileInfo.extname.toLowerCase()) < 0) {
         const error = new Error(`The file format must be ${this.options.limitExt.join(', ')} !`)
         error.type = 'limitExt'
         error.fileInfo = fileInfo
