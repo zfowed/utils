@@ -231,10 +231,10 @@ class FileSelection {
         error.fileInfo = fileInfo
         return callback(error)
       }
-      if (this.base64 || (this.options.parseImgBase64 && fileInfo.type.indexOf('image') >= 0)) {
+      if (this.options.base64 || (this.options.parseImgBase64 && fileInfo.type.indexOf('image') >= 0)) {
         return this._getBase64ByImgFile(file, (error, result) => {
           if (error) {
-            error.type = 'parseImgBase64'
+            error.type = 'base64'
             error.fileInfo = fileInfo
             return callback(error)
           }
